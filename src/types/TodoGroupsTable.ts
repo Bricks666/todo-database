@@ -1,10 +1,10 @@
 import { HEX } from ".";
 
 export interface TodoGroupsStructure {
-	groupId: number;
-	groupName: string;
-	groupMainColor: HEX;
-	groupSecondColor: HEX;
+	readonly groupId: number;
+	readonly groupName: string;
+	readonly groupMainColor: HEX;
+	readonly groupSecondColor: HEX;
 }
 
 export type TodoGroupsCreateRequest = Omit<TodoGroupsStructure, "groupId">;

@@ -14,7 +14,7 @@ export class UsersTable extends Table<UserStructure> {
 	public async getUsers<Response = UserStructure>(
 		config?: TableSelectRequestConfig<UserStructure>
 	) {
-		debugger;
+
 		return await this.select<Response>(config);
 	}
 

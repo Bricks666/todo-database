@@ -6,6 +6,7 @@ import {
 } from "mariadb-table-wrapper";
 import {
 	TodoCreateRequest,
+	TodoStatus,
 	TodoStructure,
 	TodoUpdateContentRequest,
 	TodoUpdateStatusRequest,
@@ -30,9 +31,13 @@ export class TodoTable extends Table<TodoStructure> {
 		return await this.delete(filters);
 	}
 
-	public async updateStatus(todoId: number, newStatus: number, isDone = false) {
+	public async updateStatus(
+		todoId: number,
+		newStatus: TodoStatus,
+		isDone = false
+	) {
 		return await this.update<TodoUpdateStatusRequest>(
-			{ statusId: newStatus, isDone },
+			{ status: newStatus, isDone },
 			{ todoId }
 		);
 	}

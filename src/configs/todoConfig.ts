@@ -1,5 +1,5 @@
 import { SQLTypes, TableConfig } from "mariadb-table-wrapper";
-import { Tables, TodoStructure } from "../types";
+import { Tables, TodoStatus, TodoStructure } from "../types";
 
 export const todosConfig: TableConfig<TodoStructure> = {
 	table: Tables.TODOS,
@@ -11,10 +11,16 @@ export const todosConfig: TableConfig<TodoStructure> = {
 			isNotNull: true,
 			isUnsigned: true,
 		},
-		statusId: {
-			type: SQLTypes.SMALLINT,
+		status: {
+			type: SQLTypes.ENUM,
 			isUnsigned: true,
 			isNotNull: true,
+			enumValues: [
+				TodoStatus.DONE,
+				TodoStatus.IN_PROGRESS,
+				TodoStatus.READY,
+				TodoStatus.REVIEW,
+			],
 		},
 		groupId: {
 			type: SQLTypes.SMALLINT,
@@ -42,11 +48,6 @@ export const todosConfig: TableConfig<TodoStructure> = {
 	},
 	safeCreating: true,
 	foreignKeys: {
-		/* TODO: Переделать с отдельной таблицы, на ENUM */
-		statusId: {
-			tableName: Tables.TASK_STATUS,
-			field: "statusId",
-		},
 		groupId: {
 			tableName: Tables.TODO_GROUPS,
 			field: "groupId",

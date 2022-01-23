@@ -5,7 +5,6 @@ import {
 	PoolConnection,
 } from "mariadb-table-wrapper";
 import { TodoGroupsTable } from "./TodoGroupsTable";
-import { TodoStatusTable } from "./TodoStatusTable";
 import { TodoTable } from "./TodoTable";
 import { UsersTable } from "./UsersTable";
 
@@ -16,7 +15,6 @@ export class TodoDatabase {
 	public readonly Todos: TodoTable;
 	public readonly Users: UsersTable;
 	public readonly TodoGroups: TodoGroupsTable;
-	public readonly TodoStatus: TodoStatusTable;
 
 	public constructor(config: PoolConfig) {
 		this.pool = createPool({
@@ -30,13 +28,12 @@ export class TodoDatabase {
 		this.Todos = new TodoTable();
 		this.Users = new UsersTable();
 		this.TodoGroups = new TodoGroupsTable();
-		this.TodoStatus = new TodoStatusTable();
 	}
 
 	public async connect() {
 		this.connection = await this.pool.getConnection();
 
-		const tables = [this.Users, this.TodoGroups, this.TodoStatus, this.Todos];
+		const tables = [this.Users, this.TodoGroups, this.Todos];
 		if (this.connection !== null) {
 			const inits = tables.map((table) =>
 				table.init(this.connection as PoolConnection)
